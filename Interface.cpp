@@ -396,7 +396,7 @@ void Interface::showranking_List()
 void Interface::showchoose()
 {
 	this->getChildByTag(1001)->setVisible(false);
-	this->getChildByTag(0001)->setVisible(true);
+	this->getChildByTag(1003)->setVisible(true);
 }
 
 //选择第一关
@@ -477,7 +477,7 @@ void Interface::start()
 {
 	Mflag = 0;
 	this->getChildByTag(1001)->setVisible(false);
-	this->getChildByTag(0001)->setVisible(true);
+	this->getChildByTag(500)->setVisible(true);
 	gamescene = BattleScene::create(level);
 	this->getParent()->addChild(gamescene);
 	if (flag == 0)
