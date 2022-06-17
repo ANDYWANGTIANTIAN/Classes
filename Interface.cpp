@@ -69,6 +69,12 @@ bool Interface::init()
 	help_UI->setTag(1002);
 	help_UI->setVisible(false);
 
+	//世界界面
+	auto world_UI = GUIReader::getInstance()->widgetFromJsonFile("006_1/worldUI_1.ExportJson");
+	addChild(world_UI);
+	world_UI->setTag(0001);
+	world_UI->setVisible(false);
+
 	auto btn_help_UI = (Button*)help_UI->getChildByTag(5)->getChildByTag(6);
 	btn_help_UI->addClickEventListener(CC_CALLBACK_0(Interface::return_mainscene, this));
 
@@ -390,7 +396,7 @@ void Interface::showranking_List()
 void Interface::showchoose()
 {
 	this->getChildByTag(1001)->setVisible(false);
-	this->getChildByTag(1003)->setVisible(true);
+	this->getChildByTag(0001)->setVisible(true);
 }
 
 //选择第一关
@@ -471,7 +477,7 @@ void Interface::start()
 {
 	Mflag = 0;
 	this->getChildByTag(1001)->setVisible(false);
-	this->getChildByTag(500)->setVisible(true);
+	this->getChildByTag(0001)->setVisible(true);
 	gamescene = BattleScene::create(level);
 	this->getParent()->addChild(gamescene);
 	if (flag == 0)
