@@ -74,7 +74,7 @@ bool Interface::init()
 	main_UI->setTag(1001);
 
 	auto btn1_main_UI = (Button*)main_UI->getChildByTag(2)->getChildByTag(3);
-	btn1_main_UI->addClickEventListener(CC_CALLBACK_0(Interface::start, this));
+	btn1_main_UI->addClickEventListener(CC_CALLBACK_0(Interface::showchoose, this));
 
 	auto btn2_main_UI = (Button*)main_UI->getChildByTag(2)->getChildByTag(4);
 	btn2_main_UI->addClickEventListener(CC_CALLBACK_0(Interface::showhelp, this));
@@ -145,9 +145,11 @@ bool Interface::init()
 
 	auto textView = (Text*)choose_UI->getChildByTag(2)->getChildByTag(16);
 	textView->setVisible(true);
-	textView->setFontSize(40);
-	textView->setText(GBKToUTF8("零号病人"));
+	textView->setFontSize(30);
+	textView->setText(GBKToUTF8("武汉出现不明原因发热病例"));
 	
+	auto text_bg = (ImageView*)choose_UI->getChildByTag(2)->getChildByTag(4);
+	text_bg->addClickEventListener(CC_CALLBACK_0(Interface::next_stage, this)
 	//auto btn4_choose_UI = (Button*)choose_UI->getChildByTag(2)->getChildByTag(6);
 	//btn4_choose_UI->addClickEventListener(CC_CALLBACK_0(Interface::return_mainscene, this));
 
