@@ -43,8 +43,10 @@ private:
 	Label* SecondScore;
 	Label* ThirdScore;
 	void update(float delta);
+	void next_stage();
 	bool flag;//判断是否第一次进游戏
 	bool Wflag;//判定是否在游戏界面
 	bool Mflag;//限制成功失败音效循环播放
 	bool ismusic;//判断音乐开或关
+	int stage;//剧情阶段
 };

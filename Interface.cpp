@@ -1,4 +1,28 @@
 #include "Interface.h"
+#include "cocostudio/CocoStudio.h"
+#include "ui/CocosGUI.h"
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <windows.h> 
+using namespace std;
+string GBKToUTF8(const std::string& strGBK)
+{
+	string strOutUTF8 = "";
+	WCHAR* str1;
+	int n = MultiByteToWideChar(CP_ACP, 0, strGBK.c_str(), -1, NULL, 0);
+	str1 = new WCHAR[n];
+	MultiByteToWideChar(CP_ACP, 0, strGBK.c_str(), -1, str1, n);
+	n = WideCharToMultiByte(CP_UTF8, 0, str1, -1, NULL, 0, NULL, NULL);
+	char* str2 = new char[n];
+	WideCharToMultiByte(CP_UTF8, 0, str1, -1, str2, n, NULL, NULL);
+	strOutUTF8 = str2;
+	delete[]str1;
+	str1 = NULL;
+	delete[]str2;
+	str2 = NULL;
+	return strOutUTF8;
+}
 
 BattleScene* Interface::gamescene = nullptr;
 
@@ -32,6 +56,7 @@ bool Interface::init()
 	Wflag = 0;
 	Mflag = 0;
 	ismusic = 1;
+	stage = 0;
 	char str[20] = "";
 
 
@@ -69,11 +94,6 @@ bool Interface::init()
 	help_UI->setTag(1002);
 	help_UI->setVisible(false);
 
-	//世界界面
-	auto world_UI = GUIReader::getInstance()->widgetFromJsonFile("006_1/worldUI_1.ExportJson");
-	addChild(world_UI);
-	world_UI->setTag(0001);
-	world_UI->setVisible(false);
 
 	auto btn_help_UI = (Button*)help_UI->getChildByTag(5)->getChildByTag(6);
 	btn_help_UI->addClickEventListener(CC_CALLBACK_0(Interface::return_mainscene, this));
@@ -109,20 +129,25 @@ bool Interface::init()
 	this->addChild(ThirdScore, 1);
 
 	//选择关卡界面
-	auto choose_UI = GUIReader::getInstance()->widgetFromJsonFile("005_1/005_1.ExportJson");
+	auto choose_UI = GUIReader::getInstance()->widgetFromJsonFile("005_1/worldUI_1.ExportJson");
 	addChild(choose_UI);
 	choose_UI->setTag(1003);
 	choose_UI->setVisible(false);
 
-	auto btn1_choose_UI = (Button*)world_UI->getChildByTag(2)->getChildByTag(6);
+	auto btn1_choose_UI = (Button*)choose_UI->getChildByTag(2)->getChildByTag(6);
 	btn1_choose_UI->addClickEventListener(CC_CALLBACK_0(Interface::choosefirst, this));
 
-	auto btn2_choose_UI = (Button*)world_UI->getChildByTag(2)->getChildByTag(13);
+	auto btn2_choose_UI = (Button*)choose_UI->getChildByTag(2)->getChildByTag(13);
 	btn2_choose_UI->addClickEventListener(CC_CALLBACK_0(Interface::choosesecond, this));
 
-	auto btn3_choose_UI = (Button*)world_UI->getChildByTag(2)->getChildByTag(14);
+	auto btn3_choose_UI = (Button*)choose_UI->getChildByTag(2)->getChildByTag(14);
 	btn3_choose_UI->addClickEventListener(CC_CALLBACK_0(Interface::choosethird, this));
 
+	auto textView = (Text*)choose_UI->getChildByTag(2)->getChildByTag(16);
+	textView->setVisible(true);
+	textView->setFontSize(40);
+	textView->setText(GBKToUTF8("零号病人"));
+	
 	//auto btn4_choose_UI = (Button*)choose_UI->getChildByTag(2)->getChildByTag(6);
 	//btn4_choose_UI->addClickEventListener(CC_CALLBACK_0(Interface::return_mainscene, this));
 
@@ -146,6 +171,12 @@ void Interface::update(float delta)
 	itoa(player_score, str, 10);
 	score_sum->setString(str);
 
+}
+
+void Interface::next_stage() 
+{
+	stage++;
+	
 }
 
 void Interface::gameinterface()
@@ -396,7 +427,7 @@ void Interface::showranking_List()
 void Interface::showchoose()
 {
 	this->getChildByTag(1001)->setVisible(false);
-	this->getChildByTag(0001)->setVisible(true);
+	this->getChildByTag(1003)->setVisible(true);
 }
 
 //选择第一关
@@ -404,7 +435,7 @@ void Interface::choosefirst()
 {
 	Mflag = 0;
 	level = 1;
-	this->getChildByTag(0001)->setVisible(false);
+	this->getChildByTag(1003)->setVisible(false);
 	this->getChildByTag(500)->setVisible(true);
 	gamescene = BattleScene::create(level);
 	Wflag = 1;
@@ -424,7 +455,7 @@ void Interface::choosesecond()
 {
 	Mflag = 0;
 	level = 2;
-	this->getChildByTag(0001)->setVisible(false);
+	this->getChildByTag(1003)->setVisible(false);
 	this->getChildByTag(500)->setVisible(true);
 	gamescene = BattleScene::create(level);
 	Wflag = 1;
@@ -444,7 +475,7 @@ void Interface::choosethird()
 {
 	Mflag = 0;
 	level = 3;
-	this->getChildByTag(0001)->setVisible(false);
+	this->getChildByTag(1003)->setVisible(false);
 	this->getChildByTag(500)->setVisible(true);
 	gamescene = BattleScene::create(level);
 	Wflag = 1;
@@ -477,7 +508,7 @@ void Interface::start()
 {
 	Mflag = 0;
 	this->getChildByTag(1001)->setVisible(false);
-	this->getChildByTag(0001)->setVisible(true);
+	this->getChildByTag(1003)->setVisible(true);
 	gamescene = BattleScene::create(level);
 	this->getParent()->addChild(gamescene);
 	if (flag == 0)
