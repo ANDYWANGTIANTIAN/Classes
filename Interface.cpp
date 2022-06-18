@@ -114,17 +114,17 @@ bool Interface::init()
 	choose_UI->setTag(1003);
 	choose_UI->setVisible(false);
 
-	auto btn1_choose_UI = (Button*)choose_UI->getChildByTag(2)->getChildByTag(3)->getChildByTag(7);
+	auto btn1_choose_UI = (Button*)world_UI->getChildByTag(2)->getChildByTag(6);
 	btn1_choose_UI->addClickEventListener(CC_CALLBACK_0(Interface::choosefirst, this));
 
-	auto btn2_choose_UI = (Button*)choose_UI->getChildByTag(2)->getChildByTag(4)->getChildByTag(8);
+	auto btn2_choose_UI = (Button*)world_UI->getChildByTag(2)->getChildByTag(13);
 	btn2_choose_UI->addClickEventListener(CC_CALLBACK_0(Interface::choosesecond, this));
 
-	auto btn3_choose_UI = (Button*)choose_UI->getChildByTag(2)->getChildByTag(5)->getChildByTag(9);
+	auto btn3_choose_UI = (Button*)world_UI->getChildByTag(2)->getChildByTag(14);
 	btn3_choose_UI->addClickEventListener(CC_CALLBACK_0(Interface::choosethird, this));
 
-	auto btn4_choose_UI = (Button*)choose_UI->getChildByTag(2)->getChildByTag(6);
-	btn4_choose_UI->addClickEventListener(CC_CALLBACK_0(Interface::return_mainscene, this));
+	//auto btn4_choose_UI = (Button*)choose_UI->getChildByTag(2)->getChildByTag(6);
+	//btn4_choose_UI->addClickEventListener(CC_CALLBACK_0(Interface::return_mainscene, this));
 
 	return true;
 }
@@ -396,7 +396,7 @@ void Interface::showranking_List()
 void Interface::showchoose()
 {
 	this->getChildByTag(1001)->setVisible(false);
-	this->getChildByTag(1003)->setVisible(true);
+	this->getChildByTag(0001)->setVisible(true);
 }
 
 //选择第一关
@@ -404,7 +404,7 @@ void Interface::choosefirst()
 {
 	Mflag = 0;
 	level = 1;
-	this->getChildByTag(1003)->setVisible(false);
+	this->getChildByTag(0001)->setVisible(false);
 	this->getChildByTag(500)->setVisible(true);
 	gamescene = BattleScene::create(level);
 	Wflag = 1;
@@ -424,7 +424,7 @@ void Interface::choosesecond()
 {
 	Mflag = 0;
 	level = 2;
-	this->getChildByTag(1003)->setVisible(false);
+	this->getChildByTag(0001)->setVisible(false);
 	this->getChildByTag(500)->setVisible(true);
 	gamescene = BattleScene::create(level);
 	Wflag = 1;
@@ -444,7 +444,7 @@ void Interface::choosethird()
 {
 	Mflag = 0;
 	level = 3;
-	this->getChildByTag(1003)->setVisible(false);
+	this->getChildByTag(0001)->setVisible(false);
 	this->getChildByTag(500)->setVisible(true);
 	gamescene = BattleScene::create(level);
 	Wflag = 1;
@@ -477,7 +477,7 @@ void Interface::start()
 {
 	Mflag = 0;
 	this->getChildByTag(1001)->setVisible(false);
-	this->getChildByTag(500)->setVisible(true);
+	this->getChildByTag(0001)->setVisible(true);
 	gamescene = BattleScene::create(level);
 	this->getParent()->addChild(gamescene);
 	if (flag == 0)
